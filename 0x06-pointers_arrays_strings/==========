@@ -1,0 +1,3 @@
+c.c:3: warning: no description found for function main
+102-magic.c:12: warning: missing initial short description
+102-magic.c:19: error: cannot understand function prototype: '*(p + 5) = 98; '
