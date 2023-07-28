@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+
 int main(void)
 {
   int n;
@@ -10,7 +11,7 @@ int main(void)
   p = &n;
 
   /* Add this line of code */
-  printf("a[2] = %d\n", *(p - 2) = 98);
+  *(p + 5) = 98;
 
   /* ...so that this prints a[2] = 98 */
   printf("a[2] = %d\n", a[2]);
