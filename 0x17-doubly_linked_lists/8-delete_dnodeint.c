@@ -4,102 +4,48 @@
  * delete_dnodeint_at_index - deletes the node at index of a
  * dlistint_t linked list
  *
- * @head: head of the list
- * @index: index of the new node
+ * @head: pointer to the head of the list
+ * @index: index of the node to delete
  * Return: 1 if it succeeded, -1 if it failed
  */
 int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
 {
-	dlistint_t *h1;
-	dlistint_t *h2;
 	unsigned int i;
+	dlistint_t *current;
 
-	h1 = *head;
-
-	if (h1 != NULL)
-		while (h1->prev != NULL)
-			h1 = h1->prev;
+	if (*head == NULL)
+		return (-1);
 
 	i = 0;
+	current = *head;
 
-	while (h1 != NULL)
+	/* Handle deletion at the beginning (index == 0) */
+	if (index == 0)
 	{
-		if (i == index)
-		{
-			if (i == 0)
-			{
-				*head = h1->next;
-				if (*head != NULL)
-					(*head)->prev = NULL;
-			}
-			else
-			{
-				h2->next = h1->next;
+		*head = (*head)->next;
+		if (*head != NULL)
+			(*head)->prev = NULL;
+		free(current);
+		return (1);
+	}
 
-				if (h1->next != NULL)
-					h1->next->prev = h2;
-			}
-
-			free(h1);
-			return (1);
-		}
-		h2 = h1;
-		h1 = h1->next;
+	/* Traverse the list to find the node at the specified index */
+	while (i < index && current != NULL)
+	{
+		current = current->next;
 		i++;
 	}
 
-	return (-1);
-}
-#include "lists.h"
+	/* Check if the specified index is out of bounds */
+	if (current == NULL)
+		return (-1);
 
-/**
- * delete_dnodeint_at_index - deletes the node at index of a
- * dlistint_t linked list
- *
- * @head: head of the list
- * @index: index of the new node
- * Return: 1 if it succeeded, -1 if it failed
- */
-int delete_dnodeint_at_index(dlistint_t **head, unsigned int index)
-{
-	dlistint_t *h1;
-	dlistint_t *h2;
-	unsigned int i;
+	/* Adjust the pointers to skip the current node */
+	current->prev->next = current->next;
+	if (current->next != NULL)
+		current->next->prev = current->prev;
 
-	h1 = *head;
-
-	if (h1 != NULL)
-		while (h1->prev != NULL)
-			h1 = h1->prev;
-
-	i = 0;
-
-	while (h1 != NULL)
-	{
-		if (i == index)
-		{
-			if (i == 0)
-			{
-				*head = h1->next;
-				if (*head != NULL)
-					(*head)->prev = NULL;
-			}
-			else
-			{
-				h2->next = h1->next;
-
-				if (h1->next != NULL)
-					h1->next->prev = h2;
-			}
-
-			free(h1);
-			return (1);
-		}
-		h2 = h1;
-		h1 = h1->next;
-		i++;
-	}
-
-	return (-1);
+	free(current);
+	return (1);
 }
 
